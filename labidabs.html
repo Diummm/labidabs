@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Do You Love Me?</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+      background: url("your-background.jpg") no-repeat center center/cover;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 6px black;
+    }
+
+    .chat-box {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      border-radius: 12px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-box input {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      flex: 1;
+      font-size: 1em;
+    }
+
+    .chat-box button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      background: crimson;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Heart shape */
+    .heart-container {
+      position: relative;
+      margin-top: 30px;
+      display: none;
+    }
+
+    .heart {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      background: red;
+      transform: rotate(-45deg);
+      animation: heartbeat 1s infinite;
+      margin: auto;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -75px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 75px;
+      top: 0;
+    }
+
+    .heart-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 1px 1px 3px black;
+    }
+
+    @keyframes heartbeat {
+      0%, 40%, 80%, 100% {
+        transform: scale(1) rotate(-45deg);
+      }
+      20%, 60% {
+        transform: scale(1.2) rotate(-45deg);
+      }
+    }
+
+    .popup {
+      position: fixed;
+      bottom: 20px;
+      background: black;
+      padding: 10px 20px;
+      border-radius: 8px;
+      color: white;
+      display: none;
+      font-weight: bold;
+      box-shadow: 0 0 10px red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Do you love me Fiona?</h1>
+
+  <div class="chat-box">
+    <input type="text" id="answer" placeholder="Type yes or no...">
+    <button onclick="checkAnswer()">Send</button>
+  </div>
+
+  <div class="heart-container" id="heart-container">
+    <div class="heart"></div>
+    <div class="heart-text">Iloveyoumore!❤️</div>
+  </div>
+
+  <div class="popup" id="popup">Hindi pwedeng "No" hmp!</div>
+
+  <script>
+    function checkAnswer() {
+      const answer = document.getElementById("answer").value.trim().toLowerCase();
+      const heartContainer = document.getElementById("heart-container");
+      const popup = document.getElementById("popup");
+
+      if (answer === "yes") {
+        heartContainer.style.display = "block";
+        popup.style.display = "none";
+      } else if (answer === "no") {
+        popup.style.display = "block";
+        heartContainer.style.display = "none";
+        setTimeout(() => {
+          popup.style.display = "none";
+        }, 5000);
+      } else {
+        alert("Please answer yes or no!");
+      }
+    }
+  </script>
+</body>
+</html>
