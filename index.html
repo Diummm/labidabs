@@ -1,158 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Do You Miss Me?</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      font-family: Arial, sans-serif;
-      background: url("https://i.redd.it/ya8qikz9kn0f1.png") no-repeat center center/cover;
-      color: white;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<title>Do You Miss Me?</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    background: url("https://i.redd.it/ya8qikz9kn0f1.png") no-repeat center center/cover;
+    color: white;
+    text-align: center;
+  }
 
-    h1 {
-      font-size: 2em;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 6px black;
-    }
+  h1 { font-size: 2em; margin-bottom: 20px; text-shadow: 2px 2px 6px black; }
 
-    .chat-box {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 20px;
-      border-radius: 12px;
-      display: flex;
-      gap: 10px;
-    }
+  .chat-box {
+    background: rgba(0,0,0,0.6);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    gap: 10px;
+  }
 
-    .chat-box input {
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      flex: 1;
-      font-size: 1em;
-    }
+  .chat-box input {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    flex: 1;
+    font-size: 1em;
+  }
 
-    .chat-box button {
-      padding: 10px 15px;
-      border: none;
-      border-radius: 8px;
-      background: crimson;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
+  .chat-box button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background: crimson;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
 
-    /* Heart shape */
-    .heart-container {
-      position: relative;
-      margin-top: 30px;
-      display: none;
-    }
+  .heart-container {
+    position: relative;
+    margin-top: 30px;
+    display: none;
+  }
 
-    .heart {
-      position: relative;
-      width: 150px;
-      height: 150px;
-      background: red;
-      transform: rotate(-45deg);
-      animation: heartbeat 1s infinite;
-      margin: auto;
-    }
+  .heart {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    background: red;
+    transform: rotate(-45deg);
+    animation: heartbeat 1s infinite;
+    margin: auto;
+  }
 
-    .heart::before,
-    .heart::after {
-      content: "";
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      background: red;
-      border-radius: 50%;
-    }
+  .heart::before,
+  .heart::after {
+    content: "";
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background: red;
+    border-radius: 50%;
+  }
 
-    .heart::before {
-      top: -75px;
-      left: 0;
-    }
+  .heart::before { top: -75px; left: 0; }
+  .heart::after { left: 75px; top: 0; }
 
-    .heart::after {
-      left: 75px;
-      top: 0;
-    }
+  .heart-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 3px black;
+  }
 
-    .heart-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 20px;
-      font-weight: bold;
-      color: white;
-      text-shadow: 1px 1px 3px black;
-    }
+  @keyframes heartbeat {
+    0%,40%,80%,100% { transform: scale(1) rotate(-45deg); }
+    20%,60% { transform: scale(1.2) rotate(-45deg); }
+  }
 
-    @keyframes heartbeat {
-      0%, 40%, 80%, 100% {
-        transform: scale(1) rotate(-45deg);
-      }
-      20%, 60% {
-        transform: scale(1.2) rotate(-45deg);
-      }
-    }
+  .popup {
+    position: fixed;
+    bottom: 20px;
+    background: black;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    display: none;
+    font-weight: bold;
+    box-shadow: 0 0 10px red;
+  }
 
-    .popup {
-      position: fixed;
-      bottom: 20px;
-      background: black;
-      padding: 10px 20px;
-      border-radius: 8px;
-      color: white;
-      display: none;
-      font-weight: bold;
-      box-shadow: 0 0 10px red;
-    }
-  </style>
+  .player-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .controls button {
+    margin: 5px;
+    padding:10px 15px;
+    background: crimson;
+    border:none;
+    border-radius:5px;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+  }
+
+  #cover {
+    width:200px;
+    height:200px;
+    object-fit:cover;
+    margin-top:10px;
+    border:2px solid white;
+    border-radius:10px;
+  }
+
+  #player {
+    width:320px;
+    height:180px;
+  }
+</style>
 </head>
 <body>
-  <h1>Miss mo ba ako Julie?</h1>
 
-  <div class="chat-box">
-    <input type="text" id="answer" placeholder="Type yes or no...">
-    <button onclick="checkAnswer()">Send</button>
+<h1>Miss mo ba ako Julie?</h1>
+
+<!-- Chatbox -->
+<div class="chat-box">
+  <input type="text" id="answer" placeholder="Type yes or no...">
+  <button onclick="checkAnswer()">Send</button>
+</div>
+
+<div class="heart-container" id="heart-container">
+  <div class="heart"></div>
+  <div class="heart-text">Imissyoumore!❤️</div>
+</div>
+
+<div class="popup" id="popup">Oh bakit "No" sagot mo? hmp!</div>
+
+<!-- Music Player -->
+<div class="player-container">
+  <div id="player"></div>
+  <img id="cover" src="" alt="Cover Art">
+  <div class="controls">
+    <button onclick="prevSong()">⏮ Back</button>
+    <button onclick="playSong()">▶ Play</button>
+    <button onclick="pauseSong()">⏸ Pause</button>
+    <button onclick="nextSong()">⏭ Next</button>
+    <button onclick="replaySong()">🔁 Replay</button>
   </div>
+</div>
 
-  <div class="heart-container" id="heart-container">
-    <div class="heart"></div>
-    <div class="heart-text">Imissyoumore!❤️</div>
-  </div>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  // Playlist with your 3 songs and updated cover
+  const songs = [
+    { 
+      id: "KZGWfHdfWQs", 
+      cover: "https://ysm-res.cloudinary.com/image/upload/ar_16:9,c_fill,dpr_1.0,f_auto,g_faces:auto,q_auto:eco,w_1500/v1/yms/prod/a7be94ec-644f-4141-a3c0-525ea2c1cb2d" 
+    },
+    { id: "BzWo-VxJU5I", cover: "https://i.imgur.com/1oCwQ1m.jpg" },
+    { id: "YzJW3lJeZa0", cover: "https://i.imgur.com/2XzmPzl.jpg" }
+  ];
 
-  <div class="popup" id="popup">Oh bakit "No" sagot mo? hmp!</div>
+  let currentIndex = 0;
+  let player;
 
-  <script>
-    function checkAnswer() {
-      const answer = document.getElementById("answer").value.trim().toLowerCase();
-      const heartContainer = document.getElementById("heart-container");
-      const popup = document.getElementById("popup");
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      height: '180',
+      width: '320',
+      videoId: songs[currentIndex].id,
+      playerVars: { autoplay: 0, controls: 1 },
+      events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange }
+    });
+    document.getElementById("cover").src = songs[currentIndex].cover;
+  }
 
-      if (answer === "yes") {
-        heartContainer.style.display = "block";
-        popup.style.display = "none";
-      } else if (answer === "no") {
-        popup.style.display = "block";
-        heartContainer.style.display = "none";
-        setTimeout(() => {
-          popup.style.display = "none";
-        }, 5000);
-      } else {
-        alert("Please answer yes or no!");
-      }
+  function onPlayerReady(event) { }
+
+  function onPlayerStateChange(event) {
+    if(event.data === YT.PlayerState.ENDED) nextSong();
+  }
+
+  function playSong() { player.playVideo(); }
+  function pauseSong() { player.pauseVideo(); }
+  function replaySong() { player.seekTo(0); player.playVideo(); }
+
+  function nextSong() {
+    currentIndex = (currentIndex + 1) % songs.length;
+    player.loadVideoById(songs[currentIndex].id);
+    document.getElementById("cover").src = songs[currentIndex].cover;
+  }
+
+  function prevSong() {
+    currentIndex = (currentIndex - 1 + songs.length) % songs.length;
+    player.loadVideoById(songs[currentIndex].id);
+    document.getElementById("cover").src = songs[currentIndex].cover;
+  }
+
+  // Chatbox logic
+  function checkAnswer() {
+    const answer = document.getElementById("answer").value.trim().toLowerCase();
+    const heartContainer = document.getElementById("heart-container");
+    const popup = document.getElementById("popup");
+
+    if(answer === "yes") {
+      heartContainer.style.display = "block";
+      popup.style.display = "none";
+    } else if(answer === "no") {
+      popup.style.display = "block";
+      heartContainer.style.display = "none";
+      setTimeout(()=>popup.style.display="none", 5000);
+    } else {
+      alert("Please answer yes or no!");
     }
-  </script>
+  }
+</script>
+
 </body>
 </html>
